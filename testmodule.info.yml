@@ -1,0 +1,4 @@
+name: Test Module
+type: module
+description: Sample module that defines a route and form callback.
+core: 8.x

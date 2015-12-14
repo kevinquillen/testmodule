@@ -1,0 +1,7 @@
+testmodule.fruit_form:
+  path: '/testmodule/ask-user'
+  defaults:
+    _title: 'Fruit Form'
+    _form: '\Drupal\testmodule\Form\FruitForm'
+  requirements:
+    _permission: 'access content'
