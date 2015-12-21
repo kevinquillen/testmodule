@@ -26,6 +26,12 @@ class FruitForm extends FormBase {
       '#options' => array_combine($fruits, $fruits)
     );
 
+    $form['email_address'] = array(
+      '#type' => 'email',
+      '#title' => $this->t('What is your email address?'),
+      '#required' => true,
+    );
+
     $form['submit'] = array(
       '#type' => 'submit',
       '#value' => $this->t('Submit!')

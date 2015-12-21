@@ -29,5 +29,6 @@ Feature: Test the Fruit Form
   Scenario: User sees successful message on the homepage after submitting
     When I go to "/testmodule/ask-user"
     And I enter "Blueberry" for "edit-favorite-fruit"
+    And I enter "anonymous@example.com" for "edit-email-address"
     And I press the "Submit!" button
     Then I should see the text "Blueberry! Wow! Nice choice! Thanks for telling us!"
