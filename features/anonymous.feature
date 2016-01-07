@@ -1,4 +1,4 @@
-@api
+@javascript
 Feature: Test the Fruit Form
   In order to prove Drupal serves up an example form asking about your favorite fruit
   As a developer
@@ -31,4 +31,5 @@ Feature: Test the Fruit Form
     And I enter "Blueberry" for "edit-favorite-fruit"
     And I enter "anonymous@example.com" for "edit-email-address"
     And I press the "Submit!" button
-    Then I should see the text "Blueberry! Wow! Nice choice! Thanks for telling us!"
+    Then I should see the text "Blueberry! Wow! Nice choice! Thanks for telling us!" in the "highlighted" region
+    And I should be on the homepage
