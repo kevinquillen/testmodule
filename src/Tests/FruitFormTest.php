@@ -73,15 +73,60 @@ class FruitFormTest extends WebTestBase {
    * @throws \Exception
    */
   public function testFruitFormSubmit() {
-    $this->drupalGet('testmodule/ask-user');
-    $this->assertResponse(200, 'URL is accessible to anonymous user.');
-
-    // submit the form with Blueberry as a value
+    // submit the form with a bad email address
     $this->drupalPostForm(
       'testmodule/ask-user',
       array(
         'favorite_fruit' => 'Blueberry',
-        'email_address' => 'anonymous@example.com'
+        'email_address' => 'anonymous@example'
+      ),
+      t('Submit!')
+    );
+
+    $this->assertText('Email address is invalid.');
+
+    // submit the form with an unaccepted email address
+    $this->drupalPostForm(
+      'testmodule/ask-user',
+      array(
+        'favorite_fruit' => 'Blueberry',
+        'email_address' => 'anonymous@bing.com'
+      ),
+      t('Submit!')
+    );
+
+    $this->assertText('Sorry, we only accept Gmail or Yahoo email addresses at this time.');
+
+    // submit the form with an accepted email address
+    $this->drupalPostForm(
+      'testmodule/ask-user',
+      array(
+        'favorite_fruit' => 'Blueberry',
+        'email_address' => 'anonymous@gmail.com'
+      ),
+      t('Submit!')
+    );
+
+    $this->assertNoText('Sorry, we only accept Gmail or Yahoo email addresses at this time.');
+
+    // submit the form with an accepted email address
+    $this->drupalPostForm(
+      'testmodule/ask-user',
+      array(
+        'favorite_fruit' => 'Blueberry',
+        'email_address' => 'anonymous@yahoo.com'
+      ),
+      t('Submit!')
+    );
+
+    $this->assertNoText('Sorry, we only accept Gmail or Yahoo email addresses at this time.');
+
+    // submit the form with valid values which should pass
+    $this->drupalPostForm(
+      'testmodule/ask-user',
+      array(
+        'favorite_fruit' => 'Blueberry',
+        'email_address' => 'anonymous@gmail.com'
       ),
       t('Submit!')
     );
