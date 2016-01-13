@@ -6,6 +6,9 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 class FruitForm extends FormBase {
+
+  protected $accepted_domains = ['gmail.com', 'yahoo.com'];
+
   /**
    * {@inheritDoc}
    */
@@ -34,7 +37,7 @@ class FruitForm extends FormBase {
 
     $form['submit'] = array(
       '#type' => 'submit',
-      '#value' => $this->t('Submit!')
+      '#value' => $this->t('Submit!'),
     );
 
     return $form;
@@ -44,7 +47,13 @@ class FruitForm extends FormBase {
    * {@inheritDoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // TODO: Implement validateForm() method.
+    if (!filter_var($form_state->getValue('email_address'), FILTER_VALIDATE_EMAIL)) {
+      $form_state->setError($form['email_address'], 'Email address is invalid.');
+    }
+
+    if (!$this->validEmailAddress($form_state->getValue('email_address'))) {
+      $form_state->setError($form['email_address'], 'Sorry, we only accept Gmail or Yahoo email addresses at this time.');
+    }
   }
 
   /**
@@ -53,5 +62,15 @@ class FruitForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     drupal_set_message($this->t('@fruit! Wow! Nice choice! Thanks for telling us!', array('@fruit' => $form_state->getValue('favorite_fruit'))));
     $form_state->setRedirect('<front>');
+  }
+
+  /**
+   * Check the supplied email address that it matches what we will accept.
+   * @param $email_address
+   * @return bool
+   */
+  protected function validEmailAddress($email_address) {
+    $domain = explode('@', $email_address)[1];
+    return in_array($domain, $this->accepted_domains);
   }
 }
